@@ -18,16 +18,21 @@ public class App {
         int count = 0;
         int maxSac = 0;
         int minSac = 2147483647;
+        boolean firstLoop = true;
 
 
         Reader in = new FileReader("real-estate-data.csv");
         Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in);
         for (CSVRecord record : records) {
+            if(firstLoop){
+                firstLoop = false;
+                continue;
+            }
             city = record.get(1);
             price = Integer.parseInt(record.get(9));
             sqt = Integer.parseInt(record.get(6));
 
-            if(city == "SACRAMENTO"){
+            if(city.equals("SACRAMENTO")){
                 if(price>maxSac) maxSac = price;
                 if(price<minSac) minSac = price;
             }
@@ -37,9 +42,10 @@ public class App {
             count++;
         }
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        System.out.println("The average price is: " + (totalPrice/count));
+        System.out.println("The average square footage is: " + (totalSqt/count));
+        System.out.println("The minimum price in Sacremento is: " + minSac);
+        System.out.println("The maximum price in Sacremento is: " + maxSac);
     }
 
 
